@@ -2,10 +2,11 @@ import 'reflect-metadata';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
+import '@shared/infra/typeorm';
+import upload from '@config/upload';
+import AppError from '@shared/errors/AppError';
+
 import routes from './routes';
-import './database';
-import upload from './config/upload';
-import AppError from './errors/AppError';
 
 const app = express();
 
