@@ -1,10 +1,12 @@
-import 'reflect-metadata';
+// import 'reflect-metadata';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import '@shared/infra/typeorm';
 import upload from '@config/upload';
 import AppError from '@shared/errors/AppError';
+
+import '@shared/container';
 
 import routes from './routes';
 

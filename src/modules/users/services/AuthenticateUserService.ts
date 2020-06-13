@@ -1,35 +1,43 @@
-import { getRepository } from 'typeorm';
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import AppError from '@shared/errors/AppError';
 import authConfig from '@config/auth';
+import { injectable, inject } from 'tsyringe';
 import User from '../infra/typeorm/entities/User';
+import IUserRepository from '../repositories/IUserRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
-interface Request {
+interface IRequest {
   email: string;
   password: string;
 }
 
+@injectable()
 class AuthenticateUserService {
+  constructor(
+    @inject('UsersRepository') private userRepository: IUserRepository,
+    @inject('HashProvider') private hashProvider: IHashProvider,
+  ) {}
+
   public async execute({
     email,
     password,
-  }: Request): Promise<{ user: User; token: string }> {
-    const userRepository = getRepository(User);
-
-    const user = await userRepository.findOne({
-      where: { email },
-    });
+  }: IRequest): Promise<{ user: User; token: string }> {
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError('Incorrect email/password combination.', 401);
     }
 
-    const passwordMatched = await compare(password, user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
     if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination.', 401);
     }
+
+    // console.log(user);
     const { secret, expiresIn } = authConfig.jwt;
 
     // podemos colocar permissoes do usuarios
