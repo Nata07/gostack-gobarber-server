@@ -3,7 +3,7 @@ import AppError from '@shared/errors/AppError';
 import authConfig from '@config/auth';
 import { injectable, inject } from 'tsyringe';
 import User from '../infra/typeorm/entities/User';
-import IUserRepository from '../repositories/IUserRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
@@ -14,7 +14,7 @@ interface IRequest {
 @injectable()
 class AuthenticateUserService {
   constructor(
-    @inject('UsersRepository') private userRepository: IUserRepository,
+    @inject('UsersRepository') private usersRepository: IUsersRepository,
     @inject('HashProvider') private hashProvider: IHashProvider,
   ) {}
 
@@ -22,9 +22,10 @@ class AuthenticateUserService {
     email,
     password,
   }: IRequest): Promise<{ user: User; token: string }> {
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
+      console.log('entrou no user');
       throw new AppError('Incorrect email/password combination.', 401);
     }
 
@@ -34,6 +35,7 @@ class AuthenticateUserService {
     );
 
     if (!passwordMatched) {
+      console.log('entrou no passwordHash');
       throw new AppError('Incorrect email/password combination.', 401);
     }
 

@@ -3,12 +3,17 @@ import AppError from '@shared/errors/AppError';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import UpdateUserAvatarService from './UploadUserAvatarService';
 
-describe('UploadUserAvatar', () => {
-  it('should be able to create a new User', async () => {
-    const fake = new FakeUserRepository();
-    const fakeStorage = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(fake, fakeStorage);
+let fake: FakeUserRepository;
+let fakeStorage: FakeStorageProvider;
+let updateUserAvatar: UpdateUserAvatarService;
 
+describe('UploadUserAvatar', () => {
+  beforeEach(() => {
+    fake = new FakeUserRepository();
+    fakeStorage = new FakeStorageProvider();
+    updateUserAvatar = new UpdateUserAvatarService(fake, fakeStorage);
+  });
+  it('should be able to create a new User', async () => {
     const user = await fake.create({
       name: 'John Doe',
       email: 'jn@email.com',
@@ -24,10 +29,6 @@ describe('UploadUserAvatar', () => {
   });
 
   it('non exist user update avatar', async () => {
-    const fake = new FakeUserRepository();
-    const fakeStorage = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(fake, fakeStorage);
-
     expect(
       updateUserAvatar.execute({
         avatarFilename: 'teste.jpg',
@@ -37,10 +38,6 @@ describe('UploadUserAvatar', () => {
   });
 
   it('should delete user avatar when upload new one', async () => {
-    const fake = new FakeUserRepository();
-    const fakeStorage = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(fake, fakeStorage);
-
     const deleteFile = jest.spyOn(fakeStorage, 'deleteFile');
 
     const user = await fake.create({

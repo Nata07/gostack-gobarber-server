@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
-import IUserRepository from '../repositories/IUserRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
   user_id: string;
@@ -12,7 +12,7 @@ interface IRequest {
 @injectable()
 class UpdateUserAvatarService {
   constructor(
-    @inject('UsersRepository') private userRepository: IUserRepository,
+    @inject('UsersRepository') private userRepository: IUsersRepository,
     @inject('StorageProvider') private storageProvider: IStorageProvider,
   ) {}
 

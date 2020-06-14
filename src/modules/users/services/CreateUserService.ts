@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import User from '../infra/typeorm/entities/User';
-import IUserRepository from '../repositories/IUserRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
@@ -14,7 +14,7 @@ interface IRequest {
 class CreateuserService {
   constructor(
     @inject('UsersRepository')
-    private userRepository: IUserRepository,
+    private userRepository: IUsersRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -22,6 +22,8 @@ class CreateuserService {
 
   public async execute({ name, email, password }: IRequest): Promise<User> {
     const duplicatedEmail = await this.userRepository.findByEmail(email);
+
+    // console.log(duplicatedEmail);
 
     if (duplicatedEmail) {
       throw new AppError('Email address alredy used');
