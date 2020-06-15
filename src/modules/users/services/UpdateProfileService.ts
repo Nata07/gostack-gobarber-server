@@ -34,8 +34,6 @@ class UpdateProfileService {
 
     const userExists = await this.usersRespository.findByEmail(email);
 
-    console.log(userExists);
-
     if (userExists && userExists.id !== user.id) {
       throw new AppError('User already exists.');
     }

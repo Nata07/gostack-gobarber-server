@@ -25,7 +25,6 @@ class AuthenticateUserService {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      console.log('entrou no user');
       throw new AppError('Incorrect email/password combination.', 401);
     }
 
@@ -35,11 +34,9 @@ class AuthenticateUserService {
     );
 
     if (!passwordMatched) {
-      console.log('entrou no passwordHash');
       throw new AppError('Incorrect email/password combination.', 401);
     }
 
-    // console.log(user);
     const { secret, expiresIn } = authConfig.jwt;
 
     // podemos colocar permissoes do usuarios

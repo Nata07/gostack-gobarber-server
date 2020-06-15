@@ -15,7 +15,6 @@ class ShowProfilleService {
 
   public async execute({ user_id }: IRequest): Promise<User> {
     const user = await this.usersRespository.findById(user_id);
-    console.log(user);
 
     if (!user) {
       throw new AppError('user not found');

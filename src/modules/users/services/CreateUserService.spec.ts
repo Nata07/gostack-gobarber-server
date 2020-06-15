@@ -1,15 +1,15 @@
 import AppError from '@shared/errors/AppError';
-import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvder';
 import CreateUserService from './CreateUserService';
 
-let fake: FakeUserRepository;
+let fake: FakeUsersRepository;
 let fakeHash: FakeHashProvider;
 let createUser: CreateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
-    fake = new FakeUserRepository();
+    fake = new FakeUsersRepository();
     fakeHash = new FakeHashProvider();
     createUser = new CreateUserService(fake, fakeHash);
   });

@@ -1,15 +1,15 @@
 import AppError from '@shared/errors/AppError';
-import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvder';
 import UpdateProfileService from './UpdateProfileService';
 
-let fake: FakeUserRepository;
+let fake: FakeUsersRepository;
 let fakeHash: FakeHashProvider;
 let updateProfile: UpdateProfileService;
 
 describe('UpdateProfile', () => {
   beforeEach(() => {
-    fake = new FakeUserRepository();
+    fake = new FakeUsersRepository();
     fakeHash = new FakeHashProvider();
     updateProfile = new UpdateProfileService(fake, fakeHash);
   });
@@ -81,7 +81,6 @@ describe('UpdateProfile', () => {
         user_id: user.id,
         name: 'Alter names',
         email: 'alteremail@email.com',
-        oldPassword: '123456',
         password: '123123',
       }),
     ).rejects.toBeInstanceOf(AppError);
