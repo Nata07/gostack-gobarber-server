@@ -36,7 +36,7 @@ class ListProviderAppointmentsService {
         day,
       },
     );
-    console.log(appointments);
+    // console.log(appointments);
     return appointments;
   }
 }
