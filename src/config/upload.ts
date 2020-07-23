@@ -11,7 +11,7 @@ interface IUploadConfig {
   uploadFolder: string;
 
   multer: {
-    storage: StorageEngine;
+    storage: multer.StorageEngine;
   };
 
   config: {
@@ -31,7 +31,7 @@ export default {
   multer: {
     storage: multer.diskStorage({
       destination: tempFolder,
-      filename(request, file, callback) {
+      filename(req, file, callback) {
         const fileHash = crypto.randomBytes(10).toString('hex');
         const fileName = `${fileHash}-${file.originalname}`;
 
