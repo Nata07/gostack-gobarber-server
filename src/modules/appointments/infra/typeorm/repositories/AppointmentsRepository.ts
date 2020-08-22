@@ -64,7 +64,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
       },
       relations: ['user'],
     });
-    console.log(appointments);
+    // console.log(appointments);
     return appointments;
   }
 

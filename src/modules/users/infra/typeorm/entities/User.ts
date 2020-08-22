@@ -42,10 +42,6 @@ class User {
     switch (uploadConfig.driver) {
       case 'disk':
         return `${process.env.APP_API_URL}/files/${this.avatar}`;
-
-      case 's3':
-        return `${process.env.APP_API_URL}/files/${this.avatar}`;
-
       default:
         return null;
     }
@@ -53,3 +49,6 @@ class User {
 }
 
 export default User;
+
+// case 's3':
+//   return `${uploadConfig.config.aws.bucket}.s3.amazonaws.com/files/${this.avatar}`;

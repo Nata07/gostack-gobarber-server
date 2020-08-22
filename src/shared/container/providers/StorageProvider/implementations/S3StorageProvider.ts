@@ -1,8 +1,8 @@
 import fs from 'fs';
+import mime from 'mime';
 import path from 'path';
 import aws, { S3 } from 'aws-sdk';
 import uploadConfig from '@config/upload';
-import mime from 'mime';
 import IStorageProvider from '../models/IStorageProvider';
 
 export default class S3StorageProvider implements IStorageProvider {
